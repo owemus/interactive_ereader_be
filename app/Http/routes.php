@@ -50,3 +50,17 @@ Route::get('publishers/{id}', 'PublisherController@getPublisher'); // Get langua
 Route::post('publishers', 'PublisherController@insertPublisher'); // Insert language
 Route::put('publishers/{id}', 'PublisherController@updatePublisher'); // Update language
 Route::delete('publishers/{id}', 'PublisherController@deletePublisher'); // Delete language
+
+// Books
+Route::get('books', 'BookController@getAllBooks'); // Get all books
+Route::get('books/{id}', 'BookController@getBook'); // Get book by id
+Route::post('books', 'BookController@insertBook'); // Insert book
+Route::put('books/{id}', 'BookController@updateBook'); // Update book
+Route::delete('books/{id}', 'BookController@deleteBook'); // Delete book
+
+// Chapters
+Route::get('books/{book_id}/chapters', 'ChapterController@getAllChapters'); // Get all chapters by book id
+Route::get('books/{book_id}/chapters/{chapter_id}', 'ChapterController@getChapter'); // Get chapter by id and book id
+Route::post('books/{book_id}/chapters', 'ChapterController@insertChapter'); // Insert chapter
+Route::put('books/{book_id}/chapters/{chapter_id}', 'ChapterController@updateChapter'); // Update chapter
+Route::delete('books/{book_id}/chapters/{chapter_id}', 'ChapterController@deleteChapter'); // Delete chapter

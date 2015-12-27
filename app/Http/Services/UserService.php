@@ -19,7 +19,7 @@ class UserService
 	public function getAll()
 	{
 		// Get All Users
-		$users = User::get();
+		$users = User::with('role')->get();
 
 		// Passing data to response service
 		return $this->responseService->returnMessage($users, 'No Users were Found.');

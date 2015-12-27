@@ -13,16 +13,21 @@ class User extends Model
     public static function createrules()
     {
         return [
-            'user_role_id' => 'required|exists:user_roles',
-            'email' => 'required|unique',
+            'user_role_id' => 'required|exists:user_roles,id',
+            'email' => 'required|unique:users',
         ];
     }
 
     public static function updaterules($id)
     {
         return [
-            'user_role_id' => 'required|exists:user_roles',
+            'user_role_id' => 'required|exists:user_roles,id',
             'email' => 'required|unique:users,email,'.$id
         ];
+    }
+
+    public function role()
+    {
+        return $this->belongsTo('App\UserRole');
     }
 }

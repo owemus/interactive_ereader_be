@@ -13,7 +13,7 @@ class UserRole extends Model
     public static function createrules()
     {
         return [
-            'name' => 'required|unique',
+            'name' => 'required|unique:user_roles',
         ];
     }
 
