@@ -28,6 +28,6 @@ class User extends Model
 
     public function role()
     {
-        return $this->belongsTo('App\UserRole');
+        return $this->belongsTo('App\UserRole', 'user_role_id', 'id');
     }
 }
