@@ -51,6 +51,13 @@ Route::post('publishers', 'PublisherController@insertPublisher'); // Insert lang
 Route::put('publishers/{id}', 'PublisherController@updatePublisher'); // Update language
 Route::delete('publishers/{id}', 'PublisherController@deletePublisher'); // Delete language
 
+// Books Types
+Route::get('booktypes', 'BookTypeController@getAllBookTypes'); // Get all book types
+Route::get('booktypes/{id}', 'BookTypeController@getBookType'); // Get book type by id
+Route::post('booktypes', 'BookTypeController@insertBookType'); // Insert book type
+Route::put('booktypes/{id}', 'BookTypeController@updateBookType'); // Update book type
+Route::delete('booktypes/{id}', 'BookTypeController@deleteBookType'); // Delete book type
+
 // Books
 Route::get('books', 'BookController@getAllBooks'); // Get all books
 Route::get('books/{id}', 'BookController@getBook'); // Get book by id
@@ -64,3 +71,10 @@ Route::get('books/{book_id}/chapters/{chapter_id}', 'ChapterController@getChapte
 Route::post('books/{book_id}/chapters', 'ChapterController@insertChapter'); // Insert chapter
 Route::put('books/{book_id}/chapters/{chapter_id}', 'ChapterController@updateChapter'); // Update chapter
 Route::delete('books/{book_id}/chapters/{chapter_id}', 'ChapterController@deleteChapter'); // Delete chapter
+
+// Pages
+Route::get('books/{book_id}/chapters/{chapter_id}/pages', 'PageController@getAllPages');
+Route::get('books/{book_id}/chapters/{chapter_id}/pages/{page_id}', 'PageController@getPage');
+Route::post('books/{book_id}/chapters/{chapter_id}/pages', 'PageController@insertPage');
+Route::put('books/{book_id}/chapters/{chapter_id}/pages/{page_id}', 'PageController@updatePage');
+Route::delete('books/{book_id}/chapters/{chapter_id}/pages/{page_id}', 'PageController@deletePage');

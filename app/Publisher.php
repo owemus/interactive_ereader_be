@@ -20,7 +20,7 @@ class Publisher extends Model
     public static function updaterules($id)
     {
         return [
-            'name' => 'required|unique:languages,name,'.$id
+            'name' => 'required|unique:publishers,name,'.$id
         ];
     }
 }

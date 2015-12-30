@@ -4,23 +4,23 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Subject extends Model
+class BookType extends Model
 {
-    protected $table = 'subjects';
+    protected $table = 'book_types';
     protected $fillable = ['name'];
     protected $hidden = ['created_at', 'updated_at'];
 
     public static function createrules()
     {
         return [
-            'name' => 'required|unique:subjects',
+            'name' => 'required|unique:book_types',
         ];
     }
 
     public static function updaterules($id)
     {
         return [
-            'name' => 'required|unique:subjects,name,'.$id
+            'name' => 'required|unique:book_types,name,'.$id
         ];
     }
 }
