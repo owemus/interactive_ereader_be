@@ -22,7 +22,7 @@ class ChapterService
 	public function getAll($book_id)
 	{
 		// Get All Chapters
-		$chapters = Chapter::where('book_id', $book_id)->get();
+		$chapters = Chapter::with('pages')->where('book_id', $book_id)->get();
 
 		// Passing data to response service
 		return $this->responseService->returnMessage($chapters, 'No Chapters were Found.');
@@ -32,7 +32,7 @@ class ChapterService
 	public function find($book_id, $chapter_id)
 	{
 		// Get chapter by id
-		$chapter = Chapter::where('book_id', $book_id)->find($chapter_id);
+		$chapter = Chapter::with('pages')->where('book_id', $book_id)->find($chapter_id);
 		// Passing data to response service
 		return $this->responseService->returnMessage($chapter, 'Chapter was not Found.');
 	}
