@@ -12,7 +12,7 @@ class ChapterController extends Controller
 
 	function __construct()
 	{
-		$this->chaptersService = new BookService();
+		$this->chaptersService = new ChapterService();
 	}
 
 	public function getAllChapters($book_id)
@@ -32,7 +32,7 @@ class ChapterController extends Controller
 
 	public function updateChapter(Request $request, $book_id, $chapter_id)
 	{
-		return $this->chaptersService->update($chapter_id, $request->input());
+		return $this->chaptersService->update($book_id, $chapter_id, $request->input());
 	}
 
 	public function deleteChapter($book_id, $chapter_id)

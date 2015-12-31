@@ -4,16 +4,18 @@ namespace App\Http\Services;
 
 use Validator;
 use App\Chapter as Chapter;
-use App\Chapter as Chapter;
 use App\Http\Services\ResponseService as ResponseService;
+use App\Http\Services\PageService as PageService;
 
 class ChapterService
 {
 	public $responseService;
+	public $pagesService;
 
 	function __construct()
 	{
 		$this->responseService = new ResponseService();
+		$this->pagesService = new PageService();
 	}
 
 	// Gets all chapters
@@ -36,8 +38,11 @@ class ChapterService
 	}
 
 	// Inserts chapter
-	public function insert($data)
+	public function insert($book_id, $data)
 	{
+		// Setting the book id
+		$data['book_id'] = $book_id;
+
 		// Validating data
 		$validator = Validator::make($data, Chapter::createrules());
 
@@ -46,6 +51,18 @@ class ChapterService
 		{
 			// Create Chapter
 			$chapter = Chapter::create($data);
+
+			// Checking if there are any pages
+			if(isset($data['pages']) && sizeof($data['pages']) > 0)
+			{
+				// Looping through pages
+				foreach ($data['pages'] as $page)
+				{
+					// Creating the page
+					$this->pagesService->insert($chapter->id, $page);
+				}
+			}
+
 			// Passing data to response service
 			return $this->responseService->returnMessage($chapter, 'Chapter was not Inserted.');
 		}
@@ -58,10 +75,10 @@ class ChapterService
 	}
 
 	// Updates chapter
-	public function update($id, $data)
+	public function update($book_id, $id, $data)
 	{
 		// Checking if chapter exists
-		$chapter = Chapter::find($id);
+		$chapter = Chapter::where('book_id', $book_id)->where('id', $id)->first();;
 
 		// If chapter exists
 		if(!empty($chapter))
@@ -74,6 +91,31 @@ class ChapterService
 			{
 				// Update chapter
 				$chapter->update($data);
+
+				// Checking if there are any pages
+				if(isset($data['pages']) && sizeof($data['pages']) > 0)
+				{
+					// Looping through pages
+					foreach ($data['pages'] as $page)
+					{
+						if(isset($page['id']))
+						{
+							// Getting the page
+							$findpage = $this->pagesService->find($chapter->id, $page['id']);
+							// Checking if page exists
+							if($findpage['success'])
+							{
+								// Updating the page
+								$this->pagesService->update($chapter->id, $page['id'], $page);
+							}
+						}
+						else
+						{
+							// Creating the workflow part
+							$this->pagesService->insert($chapter->id, $page);
+						}
+					}
+				}
 
 				// Passing data to response service
 				return $this->responseService->returnMessage($chapter, 'Chapter was not Updated.');
@@ -102,6 +144,15 @@ class ChapterService
 		// If chapter exists
 		if(!empty($chapter))
 		{
+			// Finding related pages
+			$pages = $this->pagesService->getAllWithChapter($id);
+
+			// Delete related pages
+			foreach ($pages['data'] as $page)
+			{
+				$this->pagesService->delete($page->id);
+			}
+
 			// Delete chapter
 			$chapter->delete();
 

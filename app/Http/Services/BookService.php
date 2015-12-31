@@ -5,6 +5,7 @@ namespace App\Http\Services;
 use Validator;
 use App\Book as Book;
 use App\Http\Services\ResponseService as ResponseService;
+use App\Http\Services\ChapterService as ChapterService;
 
 class BookService
 {
@@ -14,6 +15,7 @@ class BookService
 	function __construct()
 	{
 		$this->responseService = new ResponseService();
+		$this->chaptersService = new ChapterService();
 	}
 
 	// Gets all books
@@ -46,6 +48,18 @@ class BookService
 		{
 			// Create Book
 			$book = Book::create($data);
+
+			// Checking if there are any chapters
+			if(isset($data['chapters']) && sizeof($data['chapters']) > 0)
+			{
+				// Looping through chapters
+				foreach ($data['chapters'] as $chapter)
+				{
+					// Creating the chapter
+					$this->chaptersService->insert($book->id, $chapter);
+				}
+			}
+
 			// Passing data to response service
 			return $this->responseService->returnMessage($book, 'Book was not Inserted.');
 		}
@@ -74,6 +88,31 @@ class BookService
 			{
 				// Update book
 				$book->update($data);
+
+				// Checking if there are any chapters
+				if(isset($data['chapters']) && sizeof($data['chapters']) > 0)
+				{
+					// Looping through chapters
+					foreach ($data['chapters'] as $chapter)
+					{
+						if(isset($chapter['id']))
+						{
+							// Getting the chapter
+							$findchapter = $this->chaptersService->find($book->id, $chapter['id']);
+							// Checking if chapter exists
+							if($findchapter['success'])
+							{
+								// Updating the chapter
+								$this->chaptersService->update($book->id, $chapter['id'], $chapter);
+							}
+						}
+						else
+						{
+							// Creating the workflow part
+							$this->chaptersService->insert($book->id, $chapter);
+						}
+					}
+				}
 
 				// Passing data to response service
 				return $this->responseService->returnMessage($book, 'Book was not Updated.');
@@ -106,7 +145,7 @@ class BookService
 			$chapters = $this->chaptersService->getAll($id);
 
 			// Delete related chapters
-			foreach ($chapters as $chapter)
+			foreach ($chapters['data'] as $chapter)
 			{
 				$this->chaptersService->delete($chapter->id);
 			}
