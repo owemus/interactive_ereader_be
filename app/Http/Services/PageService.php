@@ -16,7 +16,7 @@ class PageService
 	}
 
 	// Gets all pages
-	public function getAllWithChapter($chapter_id)
+	public function getAll($book_id, $chapter_id)
 	{
 		// Get All Pages
 		$pages = Page::where('chapter_id', $chapter_id)->get();
@@ -24,9 +24,9 @@ class PageService
 		// Passing data to response service
 		return $this->responseService->returnMessage($pages, 'No Pages were Found.');
 	}
-
+	
 	// Gets all pages
-	public function getAll($book_id, $chapter_id)
+	public function getAllWithChapter($chapter_id)
 	{
 		// Get All Pages
 		$pages = Page::where('chapter_id', $chapter_id)->get();

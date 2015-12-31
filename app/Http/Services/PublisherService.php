@@ -5,14 +5,17 @@ namespace App\Http\Services;
 use Validator;
 use App\Publisher as Publisher;
 use App\Http\Services\ResponseService as ResponseService;
+use App\Http\Services\BookService as BookService;
 
 class PublisherService
 {
 	public $responseService;
+	public $booksService;
 
 	function __construct()
 	{
 		$this->responseService = new ResponseService();
+		$this->booksService = new BookService();
 	}
 
 	// Gets all publishers
@@ -101,6 +104,15 @@ class PublisherService
 		// If publisher exists
 		if(!empty($publisher))
 		{
+			// Finding related books
+			$books = $this->booksService->getAllWithPublisher($id);
+
+			// Delete related books
+			foreach ($books['data'] as $book)
+			{
+				$this->booksService->delete($book->id);
+			}
+
 			// Delete publisher
 			$publisher->delete();
 

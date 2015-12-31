@@ -5,14 +5,17 @@ namespace App\Http\Services;
 use Validator;
 use App\BookType as BookType;
 use App\Http\Services\ResponseService as ResponseService;
+use App\Http\Services\BookService as BookService;
 
 class BookTypeService
 {
 	public $responseService;
+	public $booksService;
 
 	function __construct()
 	{
 		$this->responseService = new ResponseService();
+		$this->booksService = new BookService();
 	}
 
 	// Gets all book types
@@ -101,6 +104,15 @@ class BookTypeService
 		// If book type exists
 		if(!empty($bookType))
 		{
+			// Finding related books
+			$books = $this->booksService->getAllWithBookType($id);
+
+			// Delete related books
+			foreach ($books['data'] as $book)
+			{
+				$this->booksService->delete($book->id);
+			}
+
 			// Delete book type
 			$bookType->delete();
 

@@ -1,18 +1,21 @@
-<?php
+7<?php
 
 namespace App\Http\Services;
 
 use Validator;
 use App\Language as Language;
 use App\Http\Services\ResponseService as ResponseService;
+use App\Http\Services\BookService as BookService;
 
 class LanguageService
 {
 	public $responseService;
+	public $booksService;
 
 	function __construct()
 	{
 		$this->responseService = new ResponseService();
+		$this->booksService = new BookService();
 	}
 
 	// Gets all languages
@@ -101,6 +104,15 @@ class LanguageService
 		// If language exists
 		if(!empty($language))
 		{
+			// Finding related books
+			$books = $this->booksService->getAllWithLanguage($id);
+
+			// Delete related books
+			foreach ($books['data'] as $book)
+			{
+				$this->booksService->delete($book->id);
+			}
+
 			// Delete language
 			$language->delete();
 

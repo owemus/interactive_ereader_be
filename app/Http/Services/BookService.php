@@ -28,6 +28,46 @@ class BookService
 		return $this->responseService->returnMessage($books, 'No Books were Found.');
 	}
 
+	// Gets all books
+	public function getAllWithLanguage($language_id)
+	{
+		// Get All Books
+		$books = Book::where('language_id', $language_id)->get();
+
+		// Passing data to response service
+		return $this->responseService->returnMessage($books, 'No Books were Found.');
+	}
+
+	// Gets all books
+	public function getAllWithSubject($subject_id)
+	{
+		// Get All Books
+		$books = Book::where('subject_id', $subject_id)->get();
+
+		// Passing data to response service
+		return $this->responseService->returnMessage($books, 'No Books were Found.');
+	}
+
+	// Gets all books
+	public function getAllWithPublisher($publisher_id)
+	{
+		// Get All Books
+		$books = Book::where('publisher_id', $publisher_id)->get();
+
+		// Passing data to response service
+		return $this->responseService->returnMessage($books, 'No Books were Found.');
+	}
+
+	// Gets all books
+	public function getAllWithBookType($book_type_id)
+	{
+		// Get All Books
+		$books = Book::where('book_type_id', $book_type_id)->get();
+
+		// Passing data to response service
+		return $this->responseService->returnMessage($books, 'No Books were Found.');
+	}
+
 	// Gets book by id
 	public function find($id)
 	{

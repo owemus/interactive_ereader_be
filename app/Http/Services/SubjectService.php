@@ -5,14 +5,17 @@ namespace App\Http\Services;
 use Validator;
 use App\Subject as Subject;
 use App\Http\Services\ResponseService as ResponseService;
+use App\Http\Services\BookService as BookService;
 
 class SubjectService
 {
 	public $responseService;
+	public $booksService;
 
 	function __construct()
 	{
 		$this->responseService = new ResponseService();
+		$this->booksService = new BookService();
 	}
 
 	// Gets all subjects
@@ -101,6 +104,15 @@ class SubjectService
 		// If subject exists
 		if(!empty($subject))
 		{
+			// Finding related books
+			$books = $this->booksService->getAllWithSubject($id);
+
+			// Delete related books
+			foreach ($books['data'] as $book)
+			{
+				$this->booksService->delete($book->id);
+			}
+
 			// Delete subject
 			$subject->delete();
 
