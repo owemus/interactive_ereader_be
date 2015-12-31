@@ -19,4 +19,9 @@ class Book extends Model
     {
         return [];
     }
+
+    public function chapters()
+    {
+        return $this->hasMany('App\Chapter');
+    }
 }

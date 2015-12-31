@@ -19,4 +19,9 @@ class Chapter extends Model
     {
         return [];
     }
+
+    public function pages()
+    {
+        return $this->hasMany('App\Page');
+    }
 }
