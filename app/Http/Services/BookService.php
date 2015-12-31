@@ -32,7 +32,7 @@ class BookService
 	public function find($id)
 	{
 		// Get book by id
-		$book = Book::with('chapters.pages');find($id);
+		$book = Book::with('chapters.pages')->find($id);
 		// Passing data to response service
 		return $this->responseService->returnMessage($book, 'Book was not Found.');
 	}
