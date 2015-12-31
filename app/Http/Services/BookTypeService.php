@@ -105,16 +105,7 @@ class BookTypeService
 		if(!empty($bookType))
 		{
 			// Finding related books
-			$books = $this->booksService->getAllWithBookType($id);
-
-			if (!empty($books['data']))
-			{
-				// Delete related books
-				foreach ($books['data'] as $book)
-				{
-					$this->booksService->delete($book->id);
-				}
-			}
+			$books = $this->booksService->deleteAllWithBookType($id);
 
 			// Delete book type
 			$bookType->delete();

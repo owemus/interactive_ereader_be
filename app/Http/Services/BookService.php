@@ -59,10 +59,10 @@ class BookService
 	}
 
 	// Gets all books
-	public function getAllWithBookType($book_type_id)
+	public function deleteAllWithBookType($book_type_id)
 	{
 		// Get All Books
-		$books = Book::where('book_type_id', $book_type_id)->get();
+		$books = Book::where('book_type_id', $book_type_id)->delete();
 
 		// Passing data to response service
 		return $this->responseService->returnMessage($books, 'No Books were Found.');
