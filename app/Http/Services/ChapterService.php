@@ -55,12 +55,8 @@ class ChapterService
 			// Checking if there are any pages
 			if(isset($data['pages']) && sizeof($data['pages']) > 0)
 			{
-				// Looping through pages
-				foreach ($data['pages'] as $page)
-				{
-					// Creating the page
-					$this->pagesService->insert($chapter->id, $page);
-				}
+				// Creating the page
+				$this->pagesService->insertBulk($chapter->id, $page);
 			}
 
 			// Passing data to response service

@@ -60,6 +60,21 @@ class PageService
 		}
 	}
 
+	// Bulk insert
+	public function insertBulk($chapter_id, $data)
+	{
+		foreach ($data as $page)
+		{
+			$page['chapter_id'] = $chapter_id;
+		}
+
+		// Create Page
+		$page = Page::create($data);
+		
+		// Passing data to response service
+		return $this->responseService->returnMessage($page, 'Page was not Inserted.');
+	}
+
 	// Updates page
 	public function update($id, $data)
 	{
