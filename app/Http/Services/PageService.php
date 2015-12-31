@@ -25,16 +25,6 @@ class PageService
 		return $this->responseService->returnMessage($pages, 'No Pages were Found.');
 	}
 	
-	// Gets all pages
-	public function getAllWithChapter($chapter_id)
-	{
-		// Get All Pages
-		$pages = Page::where('chapter_id', $chapter_id)->get();
-
-		// Passing data to response service
-		return $this->responseService->returnMessage($pages, 'No Pages were Found.');
-	}
-
 	// Gets page by id
 	public function find($book_id, $chapter_id, $page_id)
 	{
@@ -127,5 +117,15 @@ class PageService
 			// Returning error message
 			return $this->responseService->errorMessage('Page was not Found.');
 		}
+	}
+
+	// Deletes all pages by chapter
+	public function deleteAllWithChapter($chapter_id)
+	{
+		// Get All Pages
+		$pages = Page::where('chapter_id', $chapter_id)->delete();
+
+		// Passing data to response service
+		return $this->responseService->returnMessage($pages, 'No Pages were Found.');
 	}
 }

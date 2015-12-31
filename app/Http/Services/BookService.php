@@ -182,16 +182,7 @@ class BookService
 		if(!empty($book))
 		{
 			// Finding related chapters
-			$chapters = $this->chaptersService->getAll($id);
-
-			if(!empty($chapters['data']))
-			{
-				// Delete related chapters
-				foreach ($chapters['data'] as $chapter)
-				{
-					$this->chaptersService->delete($chapter->id);
-				}
-			}
+			$chapters = $this->chaptersService->deleteAllWithBookID($id);
 
 			// Delete book
 			$book->delete();

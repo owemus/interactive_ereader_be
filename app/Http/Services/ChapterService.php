@@ -145,19 +145,39 @@ class ChapterService
 		if(!empty($chapter))
 		{
 			// Finding related pages
-			$pages = $this->pagesService->getAllWithChapter($id);
-
-			if(!empty($pages['data']))
-			{
-				// Delete related pages
-				foreach ($pages['data'] as $page)
-				{
-					$this->pagesService->delete($page->id);
-				}
-			}
+			$pages = $this->pagesService->deleteAllWithChapter($id);
 
 			// Delete chapter
 			$chapter->delete();
+
+			// Returning success message
+			return $this->responseService->returnSuccess();
+		}
+		else
+		{
+			// Chapter not found
+			// Returning error message
+			return $this->responseService->errorMessage('Chapter was not Found.');
+		}
+	}
+
+	// Deletes chapter
+	public function deleteAllWithBookID($id)
+	{
+		// Checking if chapter exists
+		$chapters = Chapter::where('book_id', $id)->get();
+
+		// If chapters exists
+		if(sizeof($chapters) > 0)
+		{
+			// Delete related chapters
+			foreach ($chapters as $chapter)
+			{
+				// Finding related pages
+				$pages = $this->pagesService->deleteAllWithChapter($id);
+			}
+
+			Chapter::where('book_id', $id)->delete();
 
 			// Returning success message
 			return $this->responseService->returnSuccess();
