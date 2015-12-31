@@ -56,7 +56,7 @@ class ChapterService
 			if(isset($data['pages']) && sizeof($data['pages']) > 0)
 			{
 				// Creating the page
-				$this->pagesService->insertBulk($chapter->id, $page);
+				$this->pagesService->insertBulk($chapter->id, $data['pages']);
 			}
 
 			// Passing data to response service
