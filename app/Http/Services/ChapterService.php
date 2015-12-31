@@ -147,7 +147,7 @@ class ChapterService
 			// Finding related pages
 			$pages = $this->pagesService->getAllWithChapter($id);
 
-			if($pages['data'])
+			if(!empty($pages['data']))
 			{
 				// Delete related pages
 				foreach ($pages['data'] as $page)

@@ -107,10 +107,13 @@ class PublisherService
 			// Finding related books
 			$books = $this->booksService->getAllWithPublisher($id);
 
-			// Delete related books
-			foreach ($books['data'] as $book)
+			if (!empty($books['data']))
 			{
-				$this->booksService->delete($book->id);
+				// Delete related books
+				foreach ($books['data'] as $book)
+				{
+					$this->booksService->delete($book->id);
+				}
 			}
 
 			// Delete publisher

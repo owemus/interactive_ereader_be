@@ -107,10 +107,13 @@ class LanguageService
 			// Finding related books
 			$books = $this->booksService->getAllWithLanguage($id);
 
-			// Delete related books
-			foreach ($books['data'] as $book)
+			if (!empty($books['data']))
 			{
-				$this->booksService->delete($book->id);
+				// Delete related books
+				foreach ($books['data'] as $book)
+				{
+					$this->booksService->delete($book->id);
+				}
 			}
 
 			// Delete language
