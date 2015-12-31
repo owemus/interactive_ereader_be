@@ -147,10 +147,13 @@ class ChapterService
 			// Finding related pages
 			$pages = $this->pagesService->getAllWithChapter($id);
 
-			// Delete related pages
-			foreach ($pages['data'] as $page)
+			if($pages['data'])
 			{
-				$this->pagesService->delete($page->id);
+				// Delete related pages
+				foreach ($pages['data'] as $page)
+				{
+					$this->pagesService->delete($page->id);
+				}
 			}
 
 			// Delete chapter

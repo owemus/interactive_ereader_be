@@ -184,10 +184,13 @@ class BookService
 			// Finding related chapters
 			$chapters = $this->chaptersService->getAll($id);
 
-			// Delete related chapters
-			foreach ($chapters['data'] as $chapter)
+			if($chapters['data'])
 			{
-				$this->chaptersService->delete($chapter->id);
+				// Delete related chapters
+				foreach ($chapters['data'] as $chapter)
+				{
+					$this->chaptersService->delete($chapter->id);
+				}
 			}
 
 			// Delete book
