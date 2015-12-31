@@ -174,7 +174,7 @@ class ChapterService
 			foreach ($chapters as $chapter)
 			{
 				// Finding related pages
-				$pages = $this->pagesService->deleteAllWithChapter($id);
+				$pages = $this->pagesService->deleteAllWithChapter($chapter->id);
 			}
 
 			Chapter::where('book_id', $id)->delete();
