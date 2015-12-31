@@ -63,14 +63,15 @@ class PageService
 	// Bulk insert
 	public function insertBulk($chapter_id, $data)
 	{
-		foreach ($data as $page)
+		foreach ($data as $key => $value)
 		{
-			$page['chapter_id'] = $chapter_id;
+			$data[$key]['chapter_id'] = $chapter_id;
+			$data[$key]['value'] = '';
 		}
 
 		// Create Page
-		$page = Page::create($data);
-		
+		$page = Page::insert($data);
+
 		// Passing data to response service
 		return $this->responseService->returnMessage($page, 'Page was not Inserted.');
 	}
